@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SHAREFLOW | Pixel Glass Transfer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="pixel-bg"></div>
+
+    <div class="app-shell">
+        <!-- TOP HEADER -->
+        <header class="top-bar glass-panel">
+            <div>
+                <h1 class="greeting">SHAREFLOW</h1>
+                <p class="sub-date" id="status-subtext">PIXEL P2P · READY</p>
+            </div>
+            <div class="status-pill">
+                <span class="pulse-dot"></span>
+                <span>OFFLINE</span>
+            </div>
+        </header>
+
+        <!-- HOME VIEW -->
+        <main id="view-home" class="view active">
+            <!-- CHARACTER STAGE CARD -->
+            <section class="mascot-card glass-sky">
+                <div class="mascot-header">
+                    <span class="mascot-name">FLOWY</span>
+                    <span class="edit-badge" title="Your Device">CHR_1 ✎</span>
+                </div>
+
+                <!-- Speech Bubble -->
+                <div class="speech-bubble glass-bubble" id="mascot-speech">
+                    READY TO TRANSFER!<br>PICK FILES OR LINK BELOW!
+                </div>
+
+                <!-- Centered Character PNG Stage -->
+                <div class="chr-stage">
+                    <div class="sparkle s1">✦</div>
+                    <div class="sparkle s2">✦</div>
+                    <div class="chr-placeholder" id="chr-1">
+                        <img src="chr1.png" alt="chr 1">
+                    </div>
+                </div>
+
+                <!-- Bottom Mini Stat Cards -->
+                <div class="stat-grid">
+                    <div class="stat-box glass-mini">
+                        <span class="stat-label">LINK</span>
+                        <strong class="stat-value" id="stat-method">WI-FI</strong>
+                    </div>
+                    <div class="stat-box glass-mini">
+                        <span class="stat-label">MODE</span>
+                        <strong class="stat-value">DIRECT</strong>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PRIMARY PIXEL GLASS CTA BUTTON -->
+            <button class="pixel-cta" onclick="openSendView()">
+                ▶ SEND FILES
+            </button>
+            <p class="cta-caption">NO CLOUD · NO ADS · LOCAL SPEED</p>
+
+            <!-- QUICK ACTIONS CARD -->
+            <section class="glass-panel section-card">
+                <div class="card-row-header">
+                    <h3>QUICK ACTIONS</h3>
+                    <span class="link-text" onclick="openModal('receive-screen')">RECEIVE →</span>
+                </div>
+
+                <div class="quick-actions-grid">
+                    <button class="mini-action glass-mini" onclick="openSendView()">
+                        <span class="mini-icon blue-tint">↗</span>
+                        <div>
+                            <strong>SEND</strong>
+                            <small>OUTGOING</small>
+                        </div>
+                    </button>
+
+                    <button class="mini-action glass-mini" onclick="openModal('receive-screen')">
+                        <span class="mini-icon green-tint">↓</span>
+                        <div>
+                            <strong>RECEIVE</strong>
+                            <small>INCOMING</small>
+                        </div>
+                    </button>
+                </div>
+            </section>
+
+            <!-- CONNECTION PILLS CARD -->
+            <section class="glass-panel section-card">
+                <div class="card-row-header">
+                    <h3>CONNECTION</h3>
+                    <span class="tag-pill">MANUAL</span>
+                </div>
+
+                <div class="pill-group">
+                    <button class="method-pill active" onclick="selectMethod(this, 'Wi-Fi')">
+                        <span>◉</span> WI-FI
+                    </button>
+                    <button class="method-pill" onclick="selectMethod(this, 'Hotspot')">
+                        <span>⌁</span> HOTSPOT
+                    </button>
+                    <button class="method-pill" onclick="selectMethod(this, 'Wi-Fi Direct')">
+                        <span>⌘</span> DIRECT
+                    </button>
+                    <button class="method-pill" onclick="selectMethod(this, 'Bluetooth')">
+                        <span>ᛒ</span> BT
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- SEND / TRANSFER VIEW -->
+        <section id="view-send" class="view">
+            <div class="subview-header glass-panel">
+                <button class="circle-back" onclick="switchView('home')">‹</button>
+                <h2>SEND FILES</h2>
+                <div style="width: 34px;"></div>
+            </div>
+
+            <p class="center-helper">LINK: <strong id="send-method-label">Wi-Fi</strong></p>
+
+            <!-- Character PNG Peek -->
+            <div class="peek-stage">
+                <div class="sparkle s1">✦</div>
+                <div class="sparkle s2">✦</div>
+                <div class="chr-placeholder small">
+                    <img src="chr1.png" alt="chr 1">
+                </div>
+            </div>
+
+            <!-- File Picker Card -->
+            <div class="glass-panel section-card overlap-card">
+                <h3>SELECT FILES</h3>
+
+                <label class="upload-dropzone glass-mini">
+                    <span class="plus-circle">＋</span>
+                    <strong>CHOOSE FILES</strong>
+                    <small>MULTI-FILE READY</small>
+                    <input type="file" id="file-input" multiple hidden>
+                </label>
+
+                <div id="file-list"></div>
+            </div>
+
+            <!-- Transfer Control Card -->
+            <div class="glass-panel section-card">
+                <div class="transfer-summary">
+                    <span class="muted-label">QUEUED</span>
+                    <div class="big-count" id="file-count-display">0</div>
+                    <span class="muted-label">FILES</span>
+                </div>
+
+                <div class="progress-area" id="progress-area">
+                    <div class="progress-info">
+                        <span id="progress-text">PREPARING...</span>
+                        <span id="progress-percent">0%</span>
+                    </div>
+                    <div class="progress-track">
+                        <div id="progress-bar"></div>
+                    </div>
+                    <small id="progress-note">DEMO PROGRESS ONLY — ENGINE NOT CONNECTED.</small>
+                </div>
+
+                <button class="pixel-cta" onclick="startTransfer()">
+                    ▶ START TRANSFER
+                </button>
+            </div>
+        </section>
+
+        <!-- RECEIVE MODAL -->
+        <div class="modal" id="receive-screen">
+            <div class="modal-sheet glass-panel">
+                <button class="close-btn" onclick="closeModals()">×</button>
+                <div class="chr-placeholder small" style="margin: 0 auto 12px;">
+                    <img src="chr1.png" alt="chr 1">
+                </div>
+                <h3>WAITING FOR SENDER</h3>
+                <p class="modal-desc">
+                    ACTIVE ON <strong id="receive-method-label">Wi-Fi</strong>. KEEP OPEN.
+                </p>
+
+                <div class="pulse-ring">↓</div>
+
+                <button class="pixel-cta" onclick="closeModals()">
+                    BACK HOME
+                </button>
+            </div>
+        </div>
+
+        <!-- BOTTOM NAVIGATION BAR -->
+        <nav class="bottom-nav glass-nav">
+            <button class="nav-item active" id="nav-home" onclick="switchView('home')">
+                <span class="nav-icon">⌂</span>
+                <span>HOME</span>
+            </button>
+            <button class="nav-item" id="nav-send" onclick="openSendView()">
+                <span class="nav-icon">↗</span>
+                <span>SEND</span>
+            </button>
+            <button class="nav-item" onclick="openModal('receive-screen')">
+                <span class="nav-icon">↓</span>
+                <span>RECV</span>
+            </button>
+            <button class="nav-item" onclick="showDeviceToast()">
+                <span class="nav-icon">◎</span>
+                <span>DEV</span>
+            </button>
+        </nav>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
